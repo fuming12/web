@@ -31,3 +31,6 @@
   .blocks:hover {
     background: #0af;
   }
+  BUTTON {
+    margin: 12px;
+  }

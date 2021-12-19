@@ -1,6 +1,10 @@
-
+    var grid = document.getElementById("grid");
+    var testMode = false; 
+    var gameLevel = 1;
     var row = 10; 
     var col = 10; 
+    var colNumber = 10;
+    var rowNumber = 10;
     var maxCount = 10; 
     var isFirstOpen = true; 
     var grid = init_grid(); 
@@ -11,6 +15,37 @@
       let seconds = (parseFloat(time.innerHTML) + 0.1).toFixed(1); 
       time.innerHTML = seconds;
     }, 100)
+    generateGrid();
+    
+    function generateGrid() {
+        //generate row*col grid
+        grid.innerHTML = "";
+        for (var i = 0; i < rowNumber; i++) {
+            row = grid.insertRow(i);
+            for (var j = 0; j < colNumber; j++) {
+                cell = row.insertCell(j);
+                cell.onclick = function() {
+                    clickCell(this);
+                };
+                var mine = document.createAttribute("data-mine");
+                mine.value = "false";
+                cell.setAttributeNode(mine);
+            }
+        }
+        addMines();
+    }
+    
+    function addMines() {
+        //Add mines randomly
+        for (var i = 0; i < gameLevel * 10; i++) {
+            var row = Math.floor(Math.random() * rowNumber);
+            var col = Math.floor(Math.random() * colNumber);
+            var cell = grid.rows[row].cells[col];
+            cell.setAttribute("data-mine", "true");
+            if (testMode) cell.innerHTML = "X";
+        }
+    }
+    
     function init_grid() {
       let gridHtml = '';
       for (let i = 0; i < row; i++) {
